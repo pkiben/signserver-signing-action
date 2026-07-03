@@ -63,7 +63,7 @@ runs:
           elif [ "$CLIENT_CERT" != "" ]; then
             if [ "$DISABLE_CERT_VAL" == "true" ]; then
               curl --output ${OUTPUT} --location --request POST ${ENDPOINT}/rest/v1/workers/${WORKER_NAME}/process --header 'X-Keyfactor-Requested-With: REST' --header 'Accept: application/octet-stream' --form file=@${FILE_PATH} --form 'type=multipart/form-data' --cert-type P12 --cert ${CLIENT_CERT}:${PASSWORD} --insecure
-            elif ["$DISABLE_CERT_VAL" == "false" ]; then
+            elif [ "$DISABLE_CERT_VAL" == "false" ]; then
               curl --output ${OUTPUT} --location --request POST ${ENDPOINT}/rest/v1/workers/${WORKER_NAME}/process --header 'X-Keyfactor-Requested-With: REST' --header 'Accept: application/octet-stream' --form file=@${FILE_PATH} --form 'type=multipart/form-data' --cert-type P12 --cert ${CLIENT_CERT}:${PASSWORD}
             fi
           fi
@@ -74,7 +74,7 @@ runs:
           elif [ "$CLIENT_CERT" != "" ]; then
             if [ "$DISABLE_CERT_VAL" == "true" ]; then
               curl -F workerName=${WORKER_NAME} -F file=@${FILE_PATH} --cert-type P12 --cert ${CLIENT_CERT}:${PASSWORD}  --output ${OUTPUT} ${ENDPOINT}/process --insecure
-            elif ["$DISABLE_CERT_VAL" == "false" ]; then
+            elif [ "$DISABLE_CERT_VAL" == "false" ]; then
               curl -F workerName=${WORKER_NAME} -F file=@${FILE_PATH} --cert-type P12 --cert ${CLIENT_CERT}:${PASSWORD}  --output ${OUTPUT} ${ENDPOINT}/process
             fi
           fi
