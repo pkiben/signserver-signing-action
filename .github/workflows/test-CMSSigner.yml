@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
        
     - name: Start SignServer Container
-      run: sudo docker run -d -it --rm --name signserver -p 80:8080 -p 443:8443 -e LOG_LEVEL_APP=DEBUG -e ALLOW_ANY=true -v /home/runner/work/signserver-signing-action/signserver-signing-action/testing/ManagementCA.cacert.crt:/mnt/external/secrets/tls/cas/ManagementCA.crt -h localhost keyfactor/signserver-ce:7.3.2  
+      run: sudo docker run -d -it --rm --name signserver -p 80:8080 -p 443:8443 -e LOG_LEVEL_APP=DEBUG -e ALLOW_ANY=true -v /home/runner/work/signserver-signing-action/signserver-signing-action/testing/DSSRootCA10.cacert.pem:/mnt/external/secrets/tls/cas/ManagementCA.crt -h localhost keyfactor/signserver-ce:7.3.2  
           
     - name: Wait for Container to deploy
       run: sleep 180s
@@ -21,7 +21,7 @@ jobs:
 
     - name: Add CryptoTokenP12
       run: |
-          curl --cert-type P12 --cert /home/runner/work/signserver-signing-action/signserver-signing-action/testing/TestCN.p12:foo123 \
+          curl --cert-type P12 --cert /home/runner/work/signserver-signing-action/signserver-signing-action/testing/dss10_admin1.p12:foo123 \
           -d '{"properties": {
                 "KEYSTOREPATH": "/opt/signserver/res/test/dss10/dss10_keystore.p12",
                 "IMPLEMENTATION_CLASS": "org.signserver.server.signers.CryptoWorker",
@@ -36,7 +36,7 @@ jobs:
              
     - name: Add CMSSigner
       run: |
-          curl --cert-type P12 --cert /home/runner/work/signserver-signing-action/signserver-signing-action/testing/TestCN.p12:foo123 \-d '{"properties": {
+          curl --cert-type P12 --cert /home/runner/work/signserver-signing-action/signserver-signing-action/testing/dss10_admin1.p12:foo123 \-d '{"properties": {
                 "DEFAULTKEY": "signer00003",
                 "NAME": "CMSSigner",
                 "ACCEPTED_HASH_DIGEST_ALGORITHMS": "SHA-256,SHA-384,SHA-512",
