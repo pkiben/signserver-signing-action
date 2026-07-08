@@ -41,7 +41,7 @@ The following authentication types are supported:
 
 ### Input parameters
 
-`endpoint`: (Required) The SignServer signing endpoint.
+`endpoint`: (Required) The full SignServer signing endpoint, including the `/signserver` context path (e.g. `https://myhost:8443/signserver`) — see the example below.
 
 `file-path`: (Required) The path to the file to be signed.
 
